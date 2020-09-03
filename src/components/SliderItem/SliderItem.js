@@ -45,6 +45,10 @@ const Text = styled.p`
       ? css`
           ${appear} 1s forwards
         `
+      : props.startPrevAnimation
+      ? css`
+          ${hide} 1s forwards
+        `
       : css``};
   animation-delay: ${(props) => (props.startNextAnimation ? css`2s` : css`0s`)};
 
@@ -66,6 +70,10 @@ const Image = styled.img`
     props.startNextAnimation
       ? css`
           ${appear} 1s forwards
+        `
+      : props.startPrevAnimation
+      ? css`
+          ${hide} 1s forwards
         `
       : css``};
 `;
@@ -103,27 +111,47 @@ const ImageOver = styled.img`
       ? css`
           ${appearOver} 1s forwards
         `
+      : props.startPrevAnimation
+      ? css`
+          ${hideOver} 1s forwards
+        `
       : css``};
   animation-delay: ${(props) => (props.startNextAnimation ? css`1s` : css`0s`)};
 `;
 
-const SliderItem = ({ startNextAnimation }) => {
+const SliderItem = ({ startNextAnimation, startPrevAnimation }) => {
   return (
     <ItemWrapper>
       <Container>
-        <BigText startNextAnimation={startNextAnimation}>
+        <BigText
+          startNextAnimation={startNextAnimation}
+          startPrevAnimation={startPrevAnimation}
+        >
           I Am a Big Big Big Big Big Text
         </BigText>
       </Container>
       <Container>
-        <Image startNextAnimation={startNextAnimation} src={SlideImage} />
+        <Image
+          startNextAnimation={startNextAnimation}
+          startPrevAnimation={startPrevAnimation}
+          src={SlideImage}
+        />
         <ItemWrapper>
-          <ImageOver startNextAnimation={startNextAnimation} src={Phone} />
+          <ImageOver
+            startPrevAnimation={startPrevAnimation}
+            startNextAnimation={startNextAnimation}
+            src={Phone}
+          />
         </ItemWrapper>
       </Container>
 
       <Container>
-        <Text startNextAnimation={startNextAnimation}>I Am a Normal Text</Text>
+        <Text
+          startNextAnimation={startNextAnimation}
+          startPrevAnimation={startPrevAnimation}
+        >
+          I Am a Normal Text
+        </Text>
       </Container>
     </ItemWrapper>
   );

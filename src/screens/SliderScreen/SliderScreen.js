@@ -7,7 +7,6 @@ import SliderItem from "../../components/SliderItem/SliderItem";
 const Wrapper = styled.div`
   width: 100vw;
   height: 80vh;
-  background-color: pink;
   display: flex;
   justify-content: center;
 `;
@@ -36,7 +35,12 @@ const SliderWrapper = styled(Slider)`
 
 const SliderScreen = () => {
   const [startNextAnimation, setStartNextAnimation] = useState(true);
+  const [startPrevAnimation, setStartPrevAnimation] = useState(true);
+
+  console.log(startPrevAnimation);
+
   const array = [1, 2, 3];
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const settings = {
     dots: true,
@@ -45,11 +49,13 @@ const SliderScreen = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    autoplay: true,
     beforeChange: () => {
       setStartNextAnimation(false);
     },
-    afterChange: () => {
+    afterChange: (current) => {
       setStartNextAnimation(true);
+      setActiveSlide(current);
     },
   };
 
@@ -60,9 +66,12 @@ const SliderScreen = () => {
           {array.map((index) => {
             return (
               <div key={index}>
-                <SliderItem
-                  startNextAnimation={startNextAnimation}
-                />
+                {activeSlide + 1 === index ? (
+                  <SliderItem
+                    startPrevAnimation={startPrevAnimation}
+                    startNextAnimation={startNextAnimation}
+                  />
+                ) : null}
               </div>
             );
           })}
