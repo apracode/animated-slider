@@ -5,8 +5,7 @@ import styled from "styled-components";
 import SliderItem from "../../components/SliderItem/SliderItem";
 
 const Wrapper = styled.div`
-  width: 100vw;
-  height: 80vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
 `;
@@ -14,13 +13,8 @@ const Wrapper = styled.div`
 const SliderWrapper = styled(Slider)`
   width: 80%;
   height: 100%;
-  z-index: 0;
-  position: relative;
   display: flex;
   align-items: center;
-  /* & .slick-slide {
-    width: 50vw;
-  } */
   & .slick-prev,
   .slick-next {
     width: 30px;
@@ -34,12 +28,8 @@ const SliderWrapper = styled(Slider)`
 `;
 
 const SliderScreen = () => {
-  const [startNextAnimation, setStartNextAnimation] = useState(true);
-  const [startPrevAnimation, setStartPrevAnimation] = useState(true);
-
-  console.log(startPrevAnimation);
-
   const array = [1, 2, 3];
+  const [startAnimation, setStartAnimation] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
 
   const settings = {
@@ -50,11 +40,12 @@ const SliderScreen = () => {
     slidesToScroll: 1,
     arrows: true,
     autoplay: true,
+    pauseOnHover: false,
     beforeChange: () => {
-      setStartNextAnimation(false);
+      setStartAnimation(false);
     },
     afterChange: (current) => {
-      setStartNextAnimation(true);
+      setStartAnimation(true);
       setActiveSlide(current);
     },
   };
@@ -66,12 +57,9 @@ const SliderScreen = () => {
           {array.map((index) => {
             return (
               <div key={index}>
-                {activeSlide + 1 === index ? (
-                  <SliderItem
-                    startPrevAnimation={startPrevAnimation}
-                    startNextAnimation={startNextAnimation}
-                  />
-                ) : null}
+                {activeSlide + 1 === index && (
+                  <SliderItem startAnimation={startAnimation} />
+                )}
               </div>
             );
           })}

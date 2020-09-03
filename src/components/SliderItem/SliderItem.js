@@ -8,29 +8,25 @@ const ItemWrapper = styled.div`
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  height: 100%;
 `;
 const Container = styled.div`
   width: calc((100% / 3) - 2%);
-  height: 100%;
-  z-index: 0;
   position: relative;
 `;
 
 const appear = keyframes`
   from {
     opacity:0;
-    margin-bottom:-100px;
+    transform: translateY(25%)
   }
   to {
     opacity:1;
-    margin:0;
+    transform: translateY(0%)
   }
 `;
 
 const hide = keyframes`
   from {
-   
     opacity:1;
   }
   to {
@@ -38,21 +34,22 @@ const hide = keyframes`
   }
 `;
 
-const Text = styled.p`
-  font-size: 50px;
+const animated = css`
   animation: ${(props) =>
-    props.startNextAnimation
+    props.startAnimation
       ? css`
           ${appear} 1s forwards
         `
-      : props.startPrevAnimation
-      ? css`
+      : css`
           ${hide} 1s forwards
-        `
-      : css``};
-  animation-delay: ${(props) => (props.startNextAnimation ? css`2s` : css`0s`)};
+        `};
+`;
 
+const Text = styled.p`
+  font-size: 50px;
   opacity: 0;
+  ${animated}
+  animation-delay: ${(props) => (props.startAnimation ? css`2s` : "")};
 `;
 
 const BigText = styled(Text)`
@@ -63,95 +60,37 @@ const BigText = styled(Text)`
 
 const Image = styled.img`
   width: 100%;
-  height: 50%;
   display: none;
   opacity: 0;
-  animation: ${(props) =>
-    props.startNextAnimation
-      ? css`
-          ${appear} 1s forwards
-        `
-      : props.startPrevAnimation
-      ? css`
-          ${hide} 1s forwards
-        `
-      : css``};
-`;
-
-const appearOver = keyframes`
-  from {
-    opacity:0;
-    bottom:-100px;
-  }
-  to {
-    opacity:1;
-    bottom:0
-  }
-`;
-
-const hideOver = keyframes`
-  from {
-   
-    opacity:1;
-  }
-  to {
-    opacity:0;
-  }
+  ${animated}
 `;
 
 const ImageOver = styled.img`
   width: 60%;
-  height: 50%;
   position: absolute;
   right: 0;
   bottom: 0;
   opacity: 0;
-  animation: ${(props) =>
-    props.startNextAnimation
-      ? css`
-          ${appearOver} 1s forwards
-        `
-      : props.startPrevAnimation
-      ? css`
-          ${hideOver} 1s forwards
-        `
-      : css``};
-  animation-delay: ${(props) => (props.startNextAnimation ? css`1s` : css`0s`)};
+  ${animated}
+  animation-delay: ${(props) => (props.startAnimation ? css`1s` : "")};
 `;
 
-const SliderItem = ({ startNextAnimation, startPrevAnimation }) => {
+const SliderItem = ({ startAnimation }) => {
   return (
     <ItemWrapper>
       <Container>
-        <BigText
-          startNextAnimation={startNextAnimation}
-          startPrevAnimation={startPrevAnimation}
-        >
+        <BigText startAnimation={startAnimation}>
           I Am a Big Big Big Big Big Text
         </BigText>
       </Container>
       <Container>
-        <Image
-          startNextAnimation={startNextAnimation}
-          startPrevAnimation={startPrevAnimation}
-          src={SlideImage}
-        />
+        <Image startAnimation={startAnimation} src={SlideImage} />
         <ItemWrapper>
-          <ImageOver
-            startPrevAnimation={startPrevAnimation}
-            startNextAnimation={startNextAnimation}
-            src={Phone}
-          />
+          <ImageOver startAnimation={startAnimation} src={Phone} />
         </ItemWrapper>
       </Container>
-
       <Container>
-        <Text
-          startNextAnimation={startNextAnimation}
-          startPrevAnimation={startPrevAnimation}
-        >
-          I Am a Normal Text
-        </Text>
+        <Text startAnimation={startAnimation}>I Am a Normal Text</Text>
       </Container>
     </ItemWrapper>
   );
